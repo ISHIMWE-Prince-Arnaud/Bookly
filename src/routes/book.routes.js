@@ -60,4 +60,27 @@ router.get("/", protectedRoute, async (req, res) => {
   }
 });
 
+router.get("/:id", protectedRoute, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate(
+      "user",
+      "username profilePic"
+    );
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+
+    if (error.name === "CastError") {
+      return res.status(400).json({ message: "Invalid book ID" });
+    }
+
+    res.status(500).json({ message: "Error fetching book" });
+  }
+});
+
 export default router;
