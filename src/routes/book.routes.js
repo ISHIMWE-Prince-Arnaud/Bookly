@@ -95,7 +95,7 @@ router.delete("/:id", protectedRoute, async (req, res) => {
     }
 
     //delete image from cloudinary
-    if(book.image && book.image.includes("cloudinary")) {
+    if (book.image && book.image.includes("cloudinary")) {
       try {
         const publicId = book.image.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
@@ -111,6 +111,19 @@ router.delete("/:id", protectedRoute, async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error deleting book" });
+  }
+});
+
+//get books by the logged in user
+router.get("/mybooks", protectedRoute, async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching books" });
   }
 });
 
