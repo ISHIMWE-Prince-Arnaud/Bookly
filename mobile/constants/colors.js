@@ -61,4 +61,6 @@ const THEME = {
   blossom: blossomTheme,
 };
 
-export const COLORS = THEME.forest;
+const COLORS = THEME.forest;
+
+export default COLORS;
