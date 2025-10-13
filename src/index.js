@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/books", authRoutes);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
