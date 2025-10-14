@@ -1,1 +1,1 @@
-export const API_URL = "http://localhost:5000";
+export const API_URL = "https://bookly-mf2z.onrender.com";
