@@ -8,15 +8,19 @@ import { useAuthStore } from "../store/authStore.js";
 export default function RootLayout() {
   const router = useRouter();
   const segments = useSegments();
-  const { checkAuth, user, token } = useAuthStore();
+  const { checkAuth, user, token, isCheckingAuth } = useAuthStore();
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   //handle navigation based on auth state
   useEffect(() => {
+    if(isCheckingAuth) return;
+
     const inAuthScreen = segments[0] === "(auth)";
     const isSignedIn = user && token;
+    
     if (!isSignedIn && !inAuthScreen) {
       router.replace("/(auth)");
     } else if (isSignedIn && inAuthScreen) {
