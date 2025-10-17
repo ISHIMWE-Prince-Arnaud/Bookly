@@ -1,86 +1,96 @@
-import express from "express";
-import User from "../models/User.js";
-import generateToken from "../utils/generateToken.js";
-import comparePassword from "../utils/comparePassword.js";
+import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "../constants/api";
 
-const router = express.Router();
+export const useAuthStore = create((set) => ({
+  user: null,
+  token: null,
+  isLoading: false,
+  isCheckingAuth: true,
 
-router.post("/register", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
+  register: async (username, email, password) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
 
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Something went wrong");
+
+      // This line now works because the backend returns data.user
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      await AsyncStorage.setItem("token", data.token);
+
+      // Added || null for robustness, but should work with data.user
+      set({ token: data.token, user: data.user || null, isLoading: false });
+
+      return { success: true };
+    } catch (error) {
+      set({ isLoading: false });
+      return { success: false, error: error.message };
     }
+  },
 
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 6 characters" });
+  login: async (email, password) => {
+    set({ isLoading: true });
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Something went wrong");
+
+      // This line now works because the backend returns data.user
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      await AsyncStorage.setItem("token", data.token);
+
+      // Added || null for robustness, but should work with data.user
+      set({ token: data.token, user: data.user || null, isLoading: false });
+
+      return { success: true };
+    } catch (error) {
+      set({ isLoading: false });
+      return { success: false, error: error.message };
     }
+  },
 
-    if (username.length < 3) {
-      return res
-        .status(400)
-        .json({ message: "Username must be at least 3 characters" });
+  checkAuth: async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const userJson = await AsyncStorage.getItem("user");
+      const user = userJson ? JSON.parse(userJson) : null;
+
+      set({ token, user });
+    } catch (error) {
+      console.log("Auth check failed", error);
+    } finally {
+      set({ isCheckingAuth: false });
     }
+  },
 
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
-    }
-
-    const userExists = await User.findOne({ $or: [{ email }, { username }] });
-    if (userExists) {
-      return res
-        .status(400)
-        .json({ message: "User with this email or username already exists" });
-    }
-    const newUser = new User({ username, email, password });
-    await newUser.save();
-
-    const token = generateToken(newUser._id);
-
-    res.status(201).json({
-      token,
-      userId: newUser._id,
-      username: newUser.username,
-      profilePic: newUser.profilePic,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error registering user" });
-  }
-});
-
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    const token = generateToken(user._id);
-    res.status(200).json({
-      token,
-      userId: user._id,
-      username: user.username,
-      profilePic: user.profilePic,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error logging in user" });
-  }
-});
-
-export default router;
+  logout: async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
+    set({ token: null, user: null });
+  },
+}));
