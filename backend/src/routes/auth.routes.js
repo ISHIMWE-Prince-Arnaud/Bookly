@@ -42,9 +42,12 @@ router.post("/register", async (req, res) => {
 
     res.status(201).json({
       token,
-      userId: newUser._id,
-      username: newUser.username,
-      profilePic: newUser.profilePic,
+      // 💡 CHANGE HERE: Return user details inside a 'user' object
+      user: {
+        userId: newUser._id,
+        username: newUser.username,
+        profilePic: newUser.profilePic,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -73,9 +76,12 @@ router.post("/login", async (req, res) => {
     const token = generateToken(user._id);
     res.status(200).json({
       token,
-      userId: user._id,
-      username: user.username,
-      profilePic: user.profilePic,
+      // 💡 CHANGE HERE: Return user details inside a 'user' object
+      user: {
+        userId: user._id,
+        username: user.username,
+        profilePic: user.profilePic,
+      },
     });
   } catch (error) {
     console.error(error);
