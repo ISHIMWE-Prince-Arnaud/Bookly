@@ -169,7 +169,7 @@ export default function Home() {
               size={60}
               color={COLORS.textSecondary}
             />
-            <Text style={styles.emptyText}>No recommendations yet</Text>
+            <Text style={styles.emptyText}>No books yet</Text>
             <Text style={styles.emptySubtext}>
               Be the first to share a book!
             </Text>
