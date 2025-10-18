@@ -26,7 +26,7 @@ export default function RootLayout() {
     } else if (isSignedIn && inAuthScreen) {
       router.replace("/(tabs)");
     }
-  }, [user, token, segments, router]);
+  }, [user, token, segments, router, isCheckingAuth]);
 
   return (
     <SafeAreaProvider>
