@@ -81,7 +81,7 @@ export default function Home() {
       <View style={styles.bookHeader}>
         <View style={styles.userInfo}>
           <Image
-            source={{ uri: item.user.profileImage }}
+            source={{ uri: item.user.profilePic }}
             style={styles.avatar}
           />
           <Text style={styles.username}>{item.user.username}</Text>
