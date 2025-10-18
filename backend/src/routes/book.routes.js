@@ -63,6 +63,19 @@ router.get("/", protectedRoute, async (req, res) => {
   }
 });
 
+//get books by the logged in user
+router.get("/mybooks", protectedRoute, async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching books" });
+  }
+});
+
 router.get("/:id", protectedRoute, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate(
@@ -96,7 +109,7 @@ router.delete("/:id", protectedRoute, async (req, res) => {
     if (book.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
+    
     //delete image from cloudinary
     if (book.image && book.image.includes("cloudinary")) {
       try {
@@ -117,17 +130,5 @@ router.delete("/:id", protectedRoute, async (req, res) => {
   }
 });
 
-//get books by the logged in user
-router.get("/mybooks", protectedRoute, async (req, res) => {
-  try {
-    const books = await Book.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
-    res.status(200).json(books);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching books" });
-  }
-});
 
 export default router;
