@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   View,
   Alert,
@@ -11,20 +11,24 @@ import {
 import { useRouter } from "expo-router";
 import { API_URL } from "../../constants/api";
 import { useAuthStore } from "../../store/authStore";
-import styles from "../../assets/styles/profile.styles";
+import { createStyles } from "../../assets/styles/profile.styles";
 import ProfileHeader from "../../components/ProfileHeader";
 import LogoutButton from "../../components/LogoutButton";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "../../constants/colors";
+import { useTheme } from "../../context/ThemeContext";
 import { Image } from "expo-image";
 import { sleep } from ".";
 import Loader from "../../components/Loader";
+import { ThemeSelector } from "../../components/ThemeSelector";
 
 export default function Profile() {
+  const { theme } = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [deleteBookId, setDeleteBookId] = useState(null);
+  const [isThemeModalVisible, setIsThemeModalVisible] = useState(false);
 
   const { token } = useAuthStore();
 
@@ -115,9 +119,9 @@ export default function Profile() {
         style={styles.deleteButton}
         onPress={() => confirmDelete(item._id)}>
         {deleteBookId === item._id ? (
-          <ActivityIndicator size="small" color={COLORS.primary} />
+          <ActivityIndicator size="small" color={theme.primary} />
         ) : (
-          <Ionicons name="trash-outline" size={20} color={COLORS.primary} />
+          <Ionicons name="trash-outline" size={20} color={theme.primary} />
         )}
       </TouchableOpacity>
     </View>
@@ -131,7 +135,7 @@ export default function Profile() {
           key={i}
           name={i <= rating ? "star" : "star-outline"}
           size={14}
-          color={i <= rating ? "#f4b400" : COLORS.textSecondary}
+          color={i <= rating ? "#f4b400" : theme.textSecondary}
           style={{ marginRight: 2 }}
         />
       );
@@ -151,6 +155,16 @@ export default function Profile() {
   return (
     <View style={styles.container}>
       <ProfileHeader />
+      
+      {/* Theme Selector Button */}
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => setIsThemeModalVisible(true)}
+      >
+        <Ionicons name="color-palette-outline" size={20} color={theme.white} />
+        <Text style={styles.logoutText}>Change Theme</Text>
+      </TouchableOpacity>
+      
       <LogoutButton />
 
       {/* YOUR BOOKS */}
@@ -169,8 +183,8 @@ export default function Profile() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={handleRefresh}
-            colors={[COLORS.primary]}
-            tintColor={COLORS.primary}
+            colors={[theme.primary]}
+            tintColor={theme.primary}
           />
         }
         ListEmptyComponent={
@@ -178,7 +192,7 @@ export default function Profile() {
             <Ionicons
               name="book-outline"
               size={50}
-              color={COLORS.textSecondary}
+              color={theme.textSecondary}
             />
             <Text style={styles.emptyText}>No books yet</Text>
             <TouchableOpacity
@@ -188,6 +202,11 @@ export default function Profile() {
             </TouchableOpacity>
           </View>
         }
+      />
+      
+      <ThemeSelector
+        visible={isThemeModalVisible}
+        onClose={() => setIsThemeModalVisible(false)}
       />
     </View>
   );

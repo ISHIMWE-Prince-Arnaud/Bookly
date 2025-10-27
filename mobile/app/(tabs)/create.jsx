@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
-import styles from "../../assets/styles/create.styles";
+import { createStyles } from "../../assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "../../constants/colors";
+import { useTheme } from "../../context/ThemeContext";
 import { useAuthStore } from "../../store/authStore";
 
 import * as ImagePicker from "expo-image-picker";
@@ -31,6 +31,8 @@ export default function Create() {
 
   const router = useRouter();
   const { token } = useAuthStore(); // Ensure token is available here
+  const { theme } = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
 
   const pickImage = async () => {
     try {
@@ -174,7 +176,7 @@ export default function Create() {
           <Ionicons
             name={i <= rating ? "star" : "star-outline"}
             size={32}
-            color={i <= rating ? "#f4b400" : COLORS.textSecondary}
+            color={i <= rating ? "#f4b400" : theme.textSecondary}
           />
         </TouchableOpacity>
       );
@@ -206,13 +208,13 @@ export default function Create() {
                 <Ionicons
                   name="book-outline"
                   size={20}
-                  color={COLORS.textSecondary}
+                  color={theme.textSecondary}
                   style={styles.inputIcon}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="Enter book title"
-                  placeholderTextColor={COLORS.placeholderText}
+                  placeholderTextColor={theme.placeholderText}
                   value={title}
                   onChangeText={setTitle}
                 />
@@ -236,7 +238,7 @@ export default function Create() {
                     <Ionicons
                       name="image-outline"
                       size={40}
-                      color={COLORS.textSecondary}
+                      color={theme.textSecondary}
                     />
                     <Text style={styles.placeholderText}>
                       Tap to select image
@@ -252,7 +254,7 @@ export default function Create() {
               <TextInput
                 style={styles.textArea}
                 placeholder="Write your review or thoughts about this book..."
-                placeholderTextColor={COLORS.placeholderText}
+                placeholderTextColor={theme.placeholderText}
                 value={caption}
                 onChangeText={setCaption}
                 multiline
@@ -264,13 +266,13 @@ export default function Create() {
               onPress={handleSubmit}
               disabled={loading}>
               {loading ? (
-                <ActivityIndicator color={COLORS.white} />
+                <ActivityIndicator color={theme.white} />
               ) : (
                 <>
                   <Ionicons
                     name="cloud-upload-outline"
                     size={20}
-                    color={COLORS.white}
+                    color={theme.white}
                     style={styles.buttonIcon}
                   />
                   <Text style={styles.buttonText}>Share</Text>

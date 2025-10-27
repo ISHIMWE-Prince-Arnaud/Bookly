@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import COLORS from "../../constants/colors";
 
-const styles = StyleSheet.create({
+export const createStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
     padding: 16,
     paddingBottom: 0,
   },
@@ -12,22 +11,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
   },
   profileHeader: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: COLORS.cardBackground,
+    backgroundColor: theme.cardBackground,
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
   },
   profileImage: {
     width: 80,
@@ -41,34 +40,34 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 20,
     fontWeight: "700",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginBottom: 4,
   },
   email: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
     marginBottom: 4,
   },
   memberSince: {
     fontSize: 12,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
   },
   logoutButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
     borderRadius: 12,
     padding: 12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 24,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   logoutText: {
-    color: COLORS.white,
+    color: theme.white,
     fontWeight: "600",
     marginLeft: 8,
   },
@@ -81,28 +80,28 @@ const styles = StyleSheet.create({
   booksTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
   },
   booksCount: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
   },
   booksList: {
     paddingBottom: 20,
   },
   bookItem: {
     flexDirection: "row",
-    backgroundColor: COLORS.cardBackground,
+    backgroundColor: theme.cardBackground,
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
   },
   bookImage: {
     width: 70,
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
   bookTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginBottom: 4,
   },
   ratingContainer: {
@@ -126,13 +125,13 @@ const styles = StyleSheet.create({
   },
   bookCaption: {
     fontSize: 14,
-    color: COLORS.textDark,
+    color: theme.textDark,
     marginBottom: 4,
     flex: 1,
   },
   bookDate: {
     fontSize: 12,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
   },
   deleteButton: {
     padding: 8,
@@ -147,27 +146,25 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginTop: 16,
     marginBottom: 20,
     textAlign: "center",
   },
   addButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   addButtonText: {
-    color: COLORS.white,
+    color: theme.white,
     fontWeight: "600",
     fontSize: 14,
   },
 });
-
-export default styles;

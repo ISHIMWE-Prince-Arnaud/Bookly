@@ -1,28 +1,27 @@
 import { StyleSheet } from "react-native";
-import COLORS from "../../constants/colors";
 
-const styles = StyleSheet.create({
+export const createStyles = (theme) => StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
     padding: 16,
   },
   scrollViewStyle: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
   },
   card: {
-    backgroundColor: COLORS.cardBackground,
+    backgroundColor: theme.cardBackground,
     borderRadius: 16,
     padding: 20,
     marginVertical: 16,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
   },
   header: {
     alignItems: "center",
@@ -31,12 +30,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "700",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
     textAlign: "center",
   },
   form: {
@@ -48,16 +47,16 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     marginBottom: 8,
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     fontWeight: "500",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: COLORS.inputBackground,
+    backgroundColor: theme.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
     paddingHorizontal: 12,
   },
   inputIcon: {
@@ -66,25 +65,25 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 48,
-    color: COLORS.textDark,
+    color: theme.textDark,
   },
   textArea: {
-    backgroundColor: COLORS.inputBackground,
+    backgroundColor: theme.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
     padding: 12,
     height: 100,
-    color: COLORS.textDark,
+    color: theme.textDark,
   },
   ratingContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: COLORS.inputBackground,
+    backgroundColor: theme.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
     padding: 8,
   },
   starButton: {
@@ -93,10 +92,10 @@ const styles = StyleSheet.create({
   imagePicker: {
     width: "100%",
     height: 200,
-    backgroundColor: COLORS.inputBackground,
+    backgroundColor: theme.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
     overflow: "hidden",
   },
   previewImage: {
@@ -110,25 +109,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   placeholderText: {
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
     marginTop: 8,
   },
   button: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
     borderRadius: 12,
     height: 50,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   buttonText: {
-    color: COLORS.white,
+    color: theme.white,
     fontSize: 16,
     fontWeight: "600",
   },
@@ -136,5 +135,3 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
 });
-
-export default styles;

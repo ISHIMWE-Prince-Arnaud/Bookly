@@ -8,19 +8,21 @@ import {
 import { useAuthStore } from "../../store/authStore";
 
 import { Image } from "expo-image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
-import styles from "../../assets/styles/home.styles";
+import { createStyles } from "../../assets/styles/home.styles";
 import { API_URL } from "../../constants/api";
 import { Ionicons } from "@expo/vector-icons";
 import { formatPublishDate } from "../../lib/utils";
-import COLORS from "../../constants/colors";
+import { useTheme } from "../../context/ThemeContext";
 import Loader from "../../components/Loader";
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Home() {
   const { token } = useAuthStore();
+  const { theme } = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -117,7 +119,7 @@ export default function Home() {
           key={i}
           name={i <= rating ? "star" : "star-outline"}
           size={16}
-          color={i <= rating ? "#f4b400" : COLORS.textSecondary}
+          color={i <= rating ? "#f4b400" : theme.textSecondary}
           style={{ marginRight: 2 }}
         />
       );
@@ -139,8 +141,8 @@ export default function Home() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => fetchBooks(1, true)}
-            colors={[COLORS.primary]}
-            tintColor={COLORS.primary}
+            colors={[theme.primary]}
+            tintColor={theme.primary}
           />
         }
         onEndReached={handleLoadMore}
@@ -158,7 +160,7 @@ export default function Home() {
             <ActivityIndicator
               style={styles.footerLoader}
               size="small"
-              color={COLORS.primary}
+              color={theme.primary}
             />
           ) : null
         }
@@ -167,7 +169,7 @@ export default function Home() {
             <Ionicons
               name="book-outline"
               size={60}
-              color={COLORS.textSecondary}
+              color={theme.textSecondary}
             />
             <Text style={styles.emptyText}>No books yet</Text>
             <Text style={styles.emptySubtext}>

@@ -4,6 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
 import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore.js";
+import { ThemeProvider } from "../context/ThemeContext";
 
 export default function RootLayout() {
   const router = useRouter();
@@ -29,14 +30,16 @@ export default function RootLayout() {
   }, [user, token, segments, router, isCheckingAuth]);
 
   return (
-    <SafeAreaProvider>
-      <SafeScreen>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="(auth)" />
-        </Stack>
-      </SafeScreen>
-      <StatusBar barStyle="dark-content" />
-    </SafeAreaProvider>
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <SafeScreen>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(auth)" />
+          </Stack>
+        </SafeScreen>
+        <StatusBar barStyle="dark-content" />
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }

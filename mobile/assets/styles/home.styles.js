@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
-import COLORS from "../../constants/colors";
 
-const styles = StyleSheet.create({
+export const createStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.background,
   },
   listContainer: {
     padding: 16,
@@ -24,26 +23,26 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "JetBrainsMono-Medium",
     letterSpacing: 0.5,
-    color: COLORS.primary,
+    color: theme.primary,
     marginBottom: 8,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
     textAlign: "center",
   },
   bookCard: {
-    backgroundColor: COLORS.cardBackground,
+    backgroundColor: theme.cardBackground,
     borderRadius: 16,
     marginBottom: 20,
     padding: 16,
-    shadowColor: COLORS.black,
+    shadowColor: theme.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.border,
   },
   bookHeader: {
     flexDirection: "row",
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 15,
     fontWeight: "600",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
   },
   bookImageContainer: {
     width: "100%",
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: 12,
-    backgroundColor: COLORS.border,
+    backgroundColor: theme.border,
   },
   bookImage: {
     width: "100%",
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
   bookTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginBottom: 6,
   },
   ratingContainer: {
@@ -93,13 +92,13 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: 14,
-    color: COLORS.textDark,
+    color: theme.textDark,
     marginBottom: 8,
     lineHeight: 20,
   },
   date: {
     fontSize: 12,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
   },
   emptyContainer: {
     alignItems: "center",
@@ -110,18 +109,16 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: "600",
-    color: COLORS.textPrimary,
+    color: theme.textPrimary,
     marginTop: 16,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: theme.textSecondary,
     textAlign: "center",
   },
   footerLoader: {
     marginVertical: 20,
   },
 });
-
-export default styles;
